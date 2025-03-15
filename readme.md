@@ -505,8 +505,8 @@ Ver `requirements.txt` para versiones específicas.
 
 ## Autores
 
-- [Dr. Sam]
-- [Team Member Name]
+- [Cem Koyluoglu]
+- [Jose Alberto Cruz Sanchez]
 
 ## Licencia
 
