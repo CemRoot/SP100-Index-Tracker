@@ -1,0 +1,16 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+
+# AMPL specific files
+*.lic

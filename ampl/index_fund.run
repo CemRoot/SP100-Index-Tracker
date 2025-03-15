@@ -1,0 +1,74 @@
+# AMPL Run File for S&P 100 Index Tracking
+
+# Reset AMPL
+reset;
+
+# Load the model
+model index_fund.mod;
+
+# Load the data
+data index_fund.dat;
+
+# Set the solver (change to your available solver)
+option solver cplex;
+
+# Create a parameter for different q values to test
+param q_values{1..5};
+let q_values[1] := 10;
+let q_values[2] := 15;
+let q_values[3] := 20;
+let q_values[4] := 25;
+let q_values[5] := 30;
+
+# Create parameters to store results
+param tracking_error{1..5};
+param selected_stocks{1..5, 1..100} default 0;  # Stores which stocks are selected for each q
+param weights{1..5, 1..100} default 0;          # Stores weights for each q
+
+# Solve for each value of q
+for {k in 1..5} {
+    let q := q_values[k];
+    solve;
+    
+    # Store tracking error
+    let tracking_error[k] := sqrt(tracking_error_var);
+    
+    # Store selected stocks and weights
+    for {i in STOCKS} {
+        if x[i] > 0.5 then {
+            let selected_stocks[k, ord(i)] := 1;
+            let weights[k, ord(i)] := w[i];
+        }
+    }
+    
+    # Display results
+    printf "\n----- Results for q = %d -----\n", q;
+    printf "Tracking Error: %f\n", sqrt(tracking_error_var);
+    printf "Selected Stocks and Weights:\n";
+    for {i in STOCKS: x[i] > 0.5} {
+        printf "%s: %f\n", i, w[i];
+    }
+}
+
+# Save results to a file
+printf "q,tracking_error\n" > "tracking_error_results.csv";
+for {k in 1..5} {
+    printf "%d,%f\n", q_values[k], tracking_error[k] >> "tracking_error_results.csv";
+}
+
+# Save selected stocks and weights
+printf "q,stock,weight\n" > "portfolio_results.csv";
+for {k in 1..5} {
+    for {i in STOCKS: selected_stocks[k,ord(i)] > 0} {
+        printf "%d,%s,%f\n", q_values[k], i, weights[k,ord(i)] >> "portfolio_results.csv";
+    }
+}
+
+# Display summary
+printf "\n----- Summary -----\n";
+printf "q\tTracking Error\n";
+for {k in 1..5} {
+    printf "%d\t%f\n", q_values[k], tracking_error[k];
+}
+
+# End of AMPL script
