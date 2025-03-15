@@ -183,8 +183,8 @@ See `requirements.txt` for specific versions.
 
 ## Authors
 
-- [Your Name]
-- [Your Teammate's Name]
+- [Dr. Sam]
+- [Team Member Name]
 
 ## License
 
@@ -344,8 +344,8 @@ Belirli sürümler için `requirements.txt` dosyasına bakın.
 
 ## Yazarlar
 
-- [Adınız]
-- [Takım Arkadaşınızın Adı]
+- [Dr. Sam]
+- [Team Member Name]
 
 ## Lisans
 
@@ -505,8 +505,8 @@ Ver `requirements.txt` para versiones específicas.
 
 ## Autores
 
-- [Su Nombre]
-- [Nombre de su Compañero de Equipo]
+- [Dr. Sam]
+- [Team Member Name]
 
 ## Licencia
 
