@@ -184,7 +184,7 @@ See `requirements.txt` for specific versions.
 ## Authors
 
 - [Dr. Sam]
-- [Team Member Name]
+- [Jose Alberto Cruz Sanchez]
 
 ## License
 
@@ -345,7 +345,7 @@ Belirli sürümler için `requirements.txt` dosyasına bakın.
 ## Yazarlar
 
 - [Dr. Sam]
-- [Team Member Name]
+- [Jose Alberto Cruz Sanchez]
 
 ## Lisans
 
