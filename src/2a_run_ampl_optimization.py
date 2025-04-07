@@ -9,7 +9,7 @@ import os
 import pandas as pd
 import numpy as np
 import time
-from amplpy import AMPL, Environment
+from amplpy import AMPL, Environment, add_to_path
 from utils import ensure_dir
 
 def run_ampl_optimization(model_file='ampl/index_fund.mod',
@@ -55,6 +55,31 @@ def run_ampl_optimization(model_file='ampl/index_fund.mod',
     try:
         # Initialize AMPL environment
         print("Initializing AMPL environment...")
+
+        # Set up AMPL license
+        license_uuid = "your AMPL license UUID" # Replace with your AMPL license UUID
+        print(f"Using AMPL Community License: {license_uuid}")
+
+        # Lisans dosyasını manuel olarak oluştur
+        license_dir = os.path.expanduser("~/.ampl")
+        if not os.path.exists(license_dir):
+            os.makedirs(license_dir)
+
+        license_file = os.path.join(license_dir, "license.uuid")
+        with open(license_file, "w") as f:
+            f.write(license_uuid)
+        print(f"License file created at: {license_file}")
+
+        # Try to use AMPL modules if available
+        try:
+            from amplpy.modules import modules
+            modules.install()
+            print("Using AMPL modules")
+        except ImportError:
+            print("amplpy.modules not available, trying system AMPL installation")
+            # If you know the AMPL installation path, uncomment and modify the following line:
+            # add_to_path("/path/to/ampl")
+
         ampl = AMPL()
 
         # Load model and data
@@ -163,8 +188,11 @@ def run_ampl_optimization(model_file='ampl/index_fund.mod',
 
         # List directory contents for debugging
         print("\nProject directory contents:")
-        for root, dirs, files in os.walk(project_root, topdown=True, maxdepth=2):
+        max_depth = 2
+        for root, dirs, files in os.walk(project_root, topdown=True):
             level = root.replace(project_root, '').count(os.sep)
+            if level > max_depth - 1:
+                dirs.clear()
             indent = ' ' * 4 * level
             print(f"{indent}{os.path.basename(root)}/")
             sub_indent = ' ' * 4 * (level + 1)
